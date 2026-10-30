@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b090c">
+  <title>FROM ZERO — мой путь в коде</title>
+  <style>
+    :root {
+      --site-primary: #a71932;
+      --site-on-primary: #ffffff;
+      --site-secondary: #21151b;
+      --site-on-secondary: #f7e9ed;
+      --site-background: #0b090c;
+      --site-on-background: #f2edf0;
+      --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --site-heading-scale: 1;
+      --site-spacing-scale: 1;
+      --site-radius-scale: 1;
+      --site-decoration-opacity: 1;
+      color-scheme: light dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: light-dark(#f4f0f2, var(--site-background));
+      color: light-dark(#20191d, var(--site-on-background));
+      font-family: var(--site-font-body);
+    }
+    button, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .app {
+      min-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0;
+      background-color: light-dark(#f4f0f2, var(--site-background));
+      color: light-dark(#20191d, var(--site-on-background));
+      position: relative;
+      isolation: isolate;
+    }
+    .app::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 38rem;
+      height: 38rem;
+      right: -16rem;
+      top: 7rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--site-primary) 20%, transparent), transparent 68%);
+      opacity: var(--site-decoration-opacity);
+      pointer-events: none;
+    }
+    .wrap { width: min(1120px, calc(100% - 44px)); margin: 0 auto; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: calc(22px * var(--site-spacing-scale)) 0;
+      border-bottom: 1px solid light-dark(#d9cdd2, #30262c);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-size: 12px; letter-spacing: .2em; font-weight: 850; }
+    .brand-mark { width: 28px; height: 28px; display: grid; place-items: center; background: var(--site-primary); color: var(--site-on-primary); font-weight: 900; transform: rotate(-8deg); }
+    .nav { display: flex; gap: 26px; color: light-dark(#675960, #b6aab0); font-size: 12px; }
+    .nav a:hover { color: var(--site-primary); }
+    .hero { padding: clamp(76px, 12vw, 150px) 0 100px; position: relative; }
+    .eyebrow { color: var(--site-primary); text-transform: uppercase; letter-spacing: .24em; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+    .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--site-primary); }
+    h1, h2, h3 { font-family: var(--site-font-heading); margin: 0; letter-spacing: -.055em; }
+    h1 { font-size: clamp(54px, 10vw, 112px); line-height: .92; max-width: 900px; margin-top: 25px; font-weight: 900; }
+    h1 span { color: var(--site-primary); display: block; text-shadow: 3px 3px 0 light-dark(#d9bdc6, #35141e); }
+    .hero-copy { max-width: 560px; color: light-dark(#62565c, #b7aab0); line-height: 1.8; font-size: 16px; margin: 28px 0 34px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .button { display: inline-flex; align-items: center; justify-content: center; padding: 14px 19px; border-radius: calc(3px * var(--site-radius-scale)); font-size: 12px; font-weight: 800; letter-spacing: .04em; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-3px); }
+    .button.primary { background: var(--site-primary); color: var(--site-on-primary); }
+    .button.ghost { border: 1px solid light-dark(#cfc0c7, #49343e); }
+    .hero-index { position: absolute; right: 0; bottom: 40px; color: light-dark(#b4a6ad, #51414a); font-size: 10px; letter-spacing: .2em; writing-mode: vertical-rl; }
+    .section { padding: 86px 0; border-top: 1px solid light-dark(#ded4d9, #30262c); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 38px; }
+    .section-kicker { color: var(--site-primary); font-size: 10px; letter-spacing: .22em; font-weight: 850; margin-bottom: 13px; }
+    h2 { font-size: clamp(34px, 5vw, 58px); line-height: 1; }
+    .section-note { max-width: 300px; color: light-dark(#75666e, #a99ba2); font-size: 13px; line-height: 1.7; }
+    .story-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
+    .panel { background: light-dark(#e9e1e5, #171116); border: 1px solid light-dark(#d8cbd2, #33252d); padding: 30px; border-radius: calc(5px * var(--site-radius-scale)); }
+    .panel.accent { background: var(--site-secondary); color: var(--site-on-secondary); border-color: color-mix(in srgb, var(--site-primary) 55%, transparent); }
+    .panel h3 { font-size: 25px; margin-bottom: 15px; letter-spacing: -.03em; }
+    .panel p { color: light-dark(#6e6068, #b8aab1); font-size: 14px; line-height: 1.85; margin: 0; }
+    .panel.accent p { color: #d2c2c9; }
+    .big-mark { color: var(--site-primary); font-size: 42px; font-weight: 900; line-height: 1; margin-bottom: 22px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .step { min-height: 205px; padding: 24px; border: 1px solid light-dark(#d8cbd2, #33252d); background: light-dark(#eee8eb, #151015); position: relative; }
+    .step-num { color: var(--site-primary); font-size: 11px; letter-spacing: .16em; font-weight: 900; }
+    .step h3 { font-size: 22px; margin: 30px 0 12px; }
+    .step p { margin: 0; color: light-dark(#75666e, #a99ba2); font-size: 13px; line-height: 1.7; }
+    .status { display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; color: var(--site-primary); font-size: 10px; letter-spacing: .13em; font-weight: 850; text-transform: uppercase; }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 12px currentColor; }
+    .faq { border-top: 1px solid light-dark(#d8cbd2, #33252d); }
+    .faq-item { border-bottom: 1px solid light-dark(#d8cbd2, #33252d); }
+    .faq-question { width: 100%; border: 0; background: transparent; color: inherit; padding: 22px 0; display: flex; justify-content: space-between; align-items: center; text-align: left; cursor: pointer; font-size: 16px; font-weight: 750; }
+    .faq-question span:last-child { color: var(--site-primary); font-size: 22px; transition: transform .2s; }
+    .faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s; }
+    .faq-answer > div { overflow: hidden; }
+    .faq-answer p { max-width: 720px; margin: 0; padding: 0 35px 0 0; color: light-dark(#75666e, #a99ba2); font-size: 14px; line-height: 1.8; }
+    .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+    .faq-item.open .faq-answer p { padding-bottom: 22px; }
+    .faq-item.open .faq-question span:last-child { transform: rotate(45deg); }
+    .closing { background: var(--site-secondary); color: var(--site-on-secondary); padding: 52px; display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+    .closing h2 { max-width: 600px; font-size: clamp(30px, 5vw, 50px); }
+    .closing p { color: #c4b5bc; font-size: 13px; line-height: 1.7; max-width: 450px; }
+    footer { padding: 28px 0; display: flex; justify-content: space-between; gap: 20px; color: light-dark(#8c7e85, #76656e); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+    @media (max-width: 720px) {
+      .nav { gap: 12px; font-size: 10px; }
+      .story-grid, .steps { grid-template-columns: 1fr; }
+      .section-head, .closing { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 85px; }
+      .hero-index { display: none; }
+      .panel { padding: 24px; }
+      .closing { padding: 30px; }
+      footer { flex-direction: column; }
+    }
+    @media (max-width: 420px) { .wrap { width: min(100% - 30px, 1120px); } .nav a:nth-child(2) { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="app" id="top">
+    <div class="wrap">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="На главную"><span class="brand-mark">F</span><span>FROM ZERO / TO CODE</span></a>
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="#story">МОЯ ЦЕЛЬ</a>
+          <a href="#path">ПУТЬ</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">ЛИЧНЫЙ ПРОЕКТ · 2026</div>
+        <h1>НЕ ПРОСТО<br><span>УЧУ КОД.</span></h1>
+        <p class="hero-copy">Я начал изучать программирование, чтобы однажды создавать собственные проекты: Discord-ботов, инструменты и сайты. Это мой путь от первых строк Python до чего-то настоящего.</p>
+        <div class="actions">
+          <a class="button primary" href="#story">ЗАЧЕМ Я НАЧАЛ</a>
+          <a class="button ghost" href="#path">МОЙ ПЛАН</a>
+        </div>
+        <div class="hero-index">BUILDING IN PUBLIC · 001</div>
+      </section>
+
+      <section class="section" id="story">
+        <div class="section-head">
+          <div><div class="section-kicker">01 / МОЯ МОТИВАЦИЯ</div><h2>Зачем я здесь?</h2></div>
+          <p class="section-note">Не обещание стать программистом за неделю. Просто цель, ради которой я готов разбираться в сложных вещах.</p>
+        </div>
+        <div class="story-grid">
+          <article class="panel">
+            <div class="big-mark">01</div>
+            <h3>Хочу создавать, а не только пользоваться.</h3>
+            <p>Мне интересна возможность самому придумывать и собирать цифровые вещи. Не зависеть от готовых решений, а понимать, как они устроены, и уметь сделать свою версию.</p>
+          </article>
+          <article class="panel accent">
+            <div class="big-mark">→</div>
+            <h3>Первая большая цель</h3>
+            <p>Создать гибкого Discord-бота с экономикой, магазином, инвентарём, уровнями и другими функциями. А дальше перейти к более крупным проектам и собственным сайтам.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="path">
+        <div class="section-head">
+          <div><div class="section-kicker">02 / ROADMAP</div><h2>Путь по этапам.</h2></div>
+          <p class="section-note">Без гонки. Сначала понять основы, затем постепенно собирать из них реальные проекты.</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">STAGE 01</div><h3>Python basics</h3>
+            <p>Переменные, условия, циклы, функции, списки и логика программ.</p>
+            <div class="status">Изучаю сейчас</div>
+          </article>
+          <article class="step">
+            <div class="step-num">STAGE 02</div><h3>Discord bot</h3>
+            <p>Команды, экономика, магазин, инвентарь и удобная структура проекта.</p>
+            <div class="status">Следующая цель</div>
+          </article>
+          <article class="step">
+            <div class="step-num">STAGE 03</div><h3>Web projects</h3>
+            <p>HTML, CSS и JavaScript. Сайты и интерфейсы для собственных идей.</p>
+            <div class="status">Впереди</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="section-head">
+          <div><div class="section-kicker">03 / FAQ</div><h2>Частые вопросы.</h2></div>
+          <p class="section-note">Коротко отвечаю на то, что обычно интересно узнать о моём обучении.</p>
+        </div>
+        <div class="faq">
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Ты уже умеешь программировать?</span><span>+</span></button>
+            <div class="faq-answer"><div><p>Я в начале пути. Изучаю Python постепенно, пишу небольшие программы и стараюсь самостоятельно разбираться в ошибках.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Почему начал именно с Python?</span><span>+</span></button>
+            <div class="faq-answer"><div><p>Python подходит для старта: на нём можно изучать основы программирования и в дальнейшем создавать Discord-ботов, автоматизацию и другие инструменты.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Сколько времени уйдёт на обучение?</span><span>+</span></button>
+            <div class="faq-answer"><div><p>Точного срока нет. Я хочу двигаться в своём темпе, закреплять основы практикой и не перескакивать через непонятные темы.</p></div></div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false"><span>Можно следить за прогрессом?</span><span>+</span></button>
+            <div class="faq-answer"><div><p>Да. Эта страница задумана как небольшая точка отсчёта. По мере появления проектов и новых навыков её можно обновлять.</p></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="closing">
+        <div><div class="section-kicker">NO SHORTCUTS</div><h2>Сначала одна строка.<br>Потом целый проект.</h2><p>Этот сайт — первая небольшая часть пути. Дальше будет больше практики, ошибок, исправлений и работающих вещей.</p></div>
+        <a class="button primary" href="#top">НАВЕРХ ↑</a>
+      </section>
+
+      <footer><span>FROM ZERO / TO CODE</span><span>СОБИРАЮ ПО ОДНОЙ СТРОКЕ ЗА РАЗ</span></footer>
+    </div>
+  </main>
+  <script>
+    document.querySelectorAll('.faq-question').forEach((button) => {
+      button.addEventListener('click', () => {
+        const item = button.closest('.faq-item');
+        const isOpen = item.classList.toggle('open');
+        button.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+  </script>
+</body>
+</html>
