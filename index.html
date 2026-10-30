@@ -62,7 +62,11 @@
       border-bottom: 1px solid light-dark(#d9cdd2, #30262c);
     }
     .brand { display: flex; align-items: center; gap: 11px; font-size: 12px; letter-spacing: .2em; font-weight: 850; }
-    .brand-mark { width: 28px; height: 28px; display: grid; place-items: center; background: var(--site-primary); color: var(--site-on-primary); font-weight: 900; transform: rotate(-8deg); }
+    .brand-image {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
     .nav { display: flex; gap: 26px; color: light-dark(#675960, #b6aab0); font-size: 12px; }
     .nav a:hover { color: var(--site-primary); }
     .hero { padding: clamp(76px, 12vw, 150px) 0 100px; position: relative; }
