@@ -96,6 +96,64 @@
     .panel.accent p { color: #d2c2c9; }
     .big-mark { color: var(--site-primary); font-size: 42px; font-weight: 900; line-height: 1; margin-bottom: 22px; }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    /* DEVLOG — журнал разработки */
+
+.devlog {
+  display: grid;
+  gap: 14px;
+}
+
+.devlog-entry {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 24px;
+  padding: 28px;
+  background: #120e12;
+  border: 1px solid #30212a;
+  border-left: 3px solid var(--site-primary);
+  transition: border-color .2s, transform .2s;
+}
+
+.devlog-entry:hover {
+  border-color: var(--site-primary);
+  transform: translateX(4px);
+}
+
+.devlog-label {
+  color: var(--site-primary);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .15em;
+}
+
+.devlog-entry h3 {
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
+.devlog-entry p {
+  color: #a99ba2;
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.devlog-tag {
+  display: inline-block;
+  margin-top: 14px;
+  color: #d65a75;
+  font-size: 10px;
+  letter-spacing: .12em;
+  font-weight: 800;
+}
+
+@media (max-width: 520px) {
+  .devlog-entry {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 22px;
+  }
+}
     .step { min-height: 205px; padding: 24px; border: 1px solid light-dark(#d8cbd2, #33252d); background: light-dark(#eee8eb, #151015); position: relative; }
     .step-num { color: var(--site-primary); font-size: 11px; letter-spacing: .16em; font-weight: 900; }
     .step h3 { font-size: 22px; margin: 30px 0 12px; }
@@ -140,6 +198,7 @@
         <nav class="nav" aria-label="Основная навигация">
           <a href="#story">МОЯ ЦЕЛЬ</a>
           <a href="#path">ПУТЬ</a>
+          <a href="#devlog">DEVLOG</a>
           <a href="#faq">FAQ</a>
         </nav>
       </header>
@@ -195,6 +254,62 @@
             <p>HTML, CSS и JavaScript. Сайты и интерфейсы для собственных идей.</p>
             <div class="status">Впереди</div>
           </article>
+        </div>
+      </section>
+
+            <!-- DEVLOG -->
+      <section class="section" id="devlog">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">03 / DEVELOPMENT LOG</div>
+            <h2>История разработки.</h2>
+          </div>
+          <p class="section-note">
+            Каждый шаг, каждая ошибка и каждое новое достижение.
+            Здесь фиксируется мой путь.
+          </p>
+        </div>
+
+        <div class="devlog">
+
+          <article class="devlog-entry">
+            <div class="devlog-label">LEARNING</div>
+            <div>
+              <h3>Python Fundamentals</h3>
+              <p>
+                Изучение основ Python: переменные, условия, циклы,
+                функции, списки и словари. Постепенное развитие
+                логического мышления и навыков программирования.
+              </p>
+              <span class="devlog-tag">IN PROGRESS</span>
+            </div>
+          </article>
+
+          <article class="devlog-entry">
+            <div class="devlog-label">PROJECT</div>
+            <div>
+              <h3>FZC Discord Bot</h3>
+              <p>
+                Разработка собственного Discord-бота.
+                Создание системы профилей игроков, экономики
+                и структуры будущих игровых механик.
+              </p>
+              <span class="devlog-tag">DEVELOPMENT</span>
+            </div>
+          </article>
+
+          <article class="devlog-entry">
+            <div class="devlog-label">DATABASE</div>
+            <div>
+              <h3>SQLite & Player Profiles</h3>
+              <p>
+                Подключение SQLite, создание таблиц игроков
+                и реализация первой команды /profile.
+              </p>
+              <span class="devlog-tag">IMPLEMENTED</span>
+            </div>
+          </article>
+
         </div>
       </section>
 
